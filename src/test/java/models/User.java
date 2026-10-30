@@ -38,4 +38,15 @@ public class User {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+
+        return "{\n" +
+                "\"name\":\"" + name + "\",\n" +
+                "\"email\":\"" + email + "\",\n" +
+                "\"gender\":\"" + gender + "\",\n" +
+                "\"status\":\"" + status + "\"\n" +
+                "}";
+    }
 }

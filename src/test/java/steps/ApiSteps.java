@@ -1,46 +1,40 @@
 package steps;
 
-import api.UserApi;
+import api.UserService;
 import io.restassured.response.Response;
 import models.User;
 import net.serenitybdd.annotations.Step;
 import org.junit.Assert;
 import testdata.UserFactory;
+import utils.Log;
+import utils.LogUtils;
 import utils.TestContext;
+import validations.ResponseValidator;
 
 public class ApiSteps {
 
-    UserApi userApi = new UserApi();
+    UserService userService = new UserService();
 
     Response response;
 
-    @Step
-    public void createUser() {
-
-        User user = UserFactory.createUser();
-
-        TestContext.userName = user.getName();
-        TestContext.userEmail = user.getEmail();
-
-        response = userApi.createUser(user);
-
-        TestContext.userId =
-                response.jsonPath().getInt("id");
-    }
 
     @Step
     public void verifyUserCreated() {
 
-        Assert.assertEquals(
-                201,
-                response.getStatusCode()
-        );
+        ResponseValidator.validateStatusCode(
+                response,
+                201);
+
+        ResponseValidator.validateUserCreated(
+                response,
+                TestContext.userName,
+                TestContext.userEmail);
     }
 
     @Step
     public void getUser() {
 
-        response = userApi.getUser(
+        response = userService.getUser(
                 TestContext.userId
         );
     }
@@ -48,10 +42,9 @@ public class ApiSteps {
     @Step
     public void verifyUserRetrieved() {
 
-        Assert.assertEquals(
-                200,
-                response.getStatusCode()
-        );
+        ResponseValidator.validateStatusCode(
+                response,
+                200);
     }
 
     @Step
@@ -61,7 +54,7 @@ public class ApiSteps {
 
         user.setName("Updated Krishna");
 
-        response = userApi.updateUser(
+        response = userService.updateUser(
                 TestContext.userId,
                 user
         );
@@ -70,16 +63,15 @@ public class ApiSteps {
     @Step
     public void verifyUserUpdated() {
 
-        Assert.assertEquals(
-                200,
-                response.getStatusCode()
-        );
+        ResponseValidator.validateStatusCode(
+                response,
+                200);
     }
 
     @Step
     public void deleteUser() {
 
-        response = userApi.deleteUser(
+        response = userService.deleteUser(
                 TestContext.userId
         );
     }
@@ -87,9 +79,31 @@ public class ApiSteps {
     @Step
     public void verifyUserDeleted() {
 
-        Assert.assertEquals(
-                204,
-                response.getStatusCode()
-        );
+        ResponseValidator.validateStatusCode(
+                response,
+                204);
+    }
+
+    @Step
+    public void createUser() {
+
+        LogUtils.step(
+                "CREATE USER");
+
+        User user =
+                UserFactory.createUser();
+
+        TestContext.userName =
+                user.getName();
+
+        TestContext.userEmail =
+                user.getEmail();
+
+        response =
+                userService.createUser(user);
+
+        TestContext.userId =
+                response.jsonPath()
+                        .getInt("id");
     }
 }

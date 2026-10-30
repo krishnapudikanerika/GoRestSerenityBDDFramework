@@ -1,17 +1,17 @@
 package steps;
 
 import net.serenitybdd.annotations.Step;
-import pages.HomePage;
-import net.serenitybdd.annotations.Step;
+import org.junit.Assert;
 import pages.ConsolePage;
 import pages.DocumentationPage;
+import pages.HomePage;
+import validations.UIValidator;
 
 public class UiSteps {
 
     HomePage homePage;
     DocumentationPage documentationPage;
     ConsolePage consolePage;
-
 
     @Step
     public void openHomePage() {
@@ -20,7 +20,11 @@ public class UiSteps {
 
     @Step
     public void verifyHomePage() {
-        homePage.verifyHomePageTitle();
+
+        Assert.assertTrue(
+                "Go REST logo not displayed",
+                homePage.isGoRestLogoDisplayed()
+        );
     }
 
     @Step
@@ -30,7 +34,11 @@ public class UiSteps {
 
     @Step
     public void verifyDocumentationPage() {
-        documentationPage.verifyDocumentationPage();
+
+        UIValidator.validateTextPresent(
+                documentationPage.getDocsHeader(),
+                "Docs and integration guides"
+        );
     }
 
     @Step
@@ -40,6 +48,10 @@ public class UiSteps {
 
     @Step
     public void verifyConsolePage() {
-        consolePage.verifyConsolePage();
+
+        UIValidator.validateUrlContains(
+                consolePage.getCurrentUrl(),
+                "gorest.co.in"
+        );
     }
 }

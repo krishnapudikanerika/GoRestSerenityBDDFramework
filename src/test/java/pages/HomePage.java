@@ -1,22 +1,29 @@
 package pages;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
-import org.junit.Assert;
+import net.serenitybdd.core.pages.WebElementFacade;
+import utils.ConfigReader;
+import utils.LogUtils;
 
 public class HomePage extends PageObject {
 
+    @FindBy(xpath = "//*[contains(text(),'Go REST')]")
+    private WebElementFacade goRestLogo;
+
     public void openHomePage() {
 
-//        WebDriverManager.chromedriver().setup();
+        LogUtils.step("OPEN HOME PAGE");
 
-        openUrl("https://gorest.co.in/");
+        openUrl(
+                ConfigReader.get("base.url")
+        );
     }
 
-    public void verifyHomePageTitle() {
+    public boolean isGoRestLogoDisplayed() {
 
-        Assert.assertTrue(
-                getDriver().getTitle().contains("GoRest")
-        );
+        waitFor(goRestLogo);
+
+        return goRestLogo.isDisplayed();
     }
 }

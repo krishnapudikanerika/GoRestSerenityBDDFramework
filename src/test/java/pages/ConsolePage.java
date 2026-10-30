@@ -1,20 +1,75 @@
 package pages;
 
+import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
-import org.junit.Assert;
+import net.serenitybdd.core.pages.WebElementFacade;
+import utils.ConfigReader;
+import utils.LogUtils;
 
 public class ConsolePage extends PageObject {
 
+    @FindBy(xpath = "//*[@id='app']/div[2]/header/div/nav/a[1]")
+    private WebElementFacade consoleLink;
+
+    @FindBy(id = "rsq-url")
+    private WebElementFacade requestUrl;
+
+    @FindBy(xpath = "//*[@id='main']/div/div[2]/div[1]/button")
+    private WebElementFacade sendButton;
+
+    @FindBy(xpath = "//*[@id='main']/div/div[2]/div[3]/section[2]/p/span[1]")
+    private WebElementFacade responseCode;
+
+    @FindBy(xpath = "//*[@id='main']/div/div[2]/div[3]")
+    private WebElementFacade responseSection;
+
     public void openConsolePage() {
 
-        openUrl("https://gorest.co.in/");
+        LogUtils.step("OPEN CONSOLE PAGE");
+
+        openUrl(
+                ConfigReader.get("base.url")
+        );
+
+        waitFor(consoleLink);
+
+        consoleLink.click();
     }
 
-    public void verifyConsolePage() {
+    public void sendGetUserRequest(int userId) {
 
-        Assert.assertTrue(
-                getDriver().getPageSource()
-                        .contains("Console")
-        );
+        String endpoint =
+                ConfigReader.get("api.base.url")
+                        + "/users/"
+                        + userId;
+
+        LogUtils.step("EXECUTING USER API IN CONSOLE");
+
+        waitFor(requestUrl);
+
+        requestUrl.clear();
+
+        requestUrl.type(endpoint);
+
+        sendButton.click();
+    }
+
+    public String getResponseCode() {
+
+        waitFor(responseCode);
+
+        return responseCode.getText();
+    }
+
+    public String getResponseText() {
+
+        waitFor(responseSection);
+
+        return responseSection.getText();
+    }
+
+    public String getCurrentUrl() {
+
+        return getDriver().getCurrentUrl();
     }
 }

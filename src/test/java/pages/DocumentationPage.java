@@ -1,21 +1,36 @@
 package pages;
 
+import net.serenitybdd.core.annotations.findby.FindBy;
 import net.serenitybdd.core.pages.PageObject;
-import org.junit.Assert;
+import net.serenitybdd.core.pages.WebElementFacade;
+import utils.ConfigReader;
+import utils.LogUtils;
 
 public class DocumentationPage extends PageObject {
 
+    @FindBy(xpath = "//*[@id='app']/div[2]/header/div/nav/a[2]")
+    private WebElementFacade docsLink;
+
+    @FindBy(xpath = "//*[@id='main']/div[1]/h1")
+    private WebElementFacade docsHeader;
+
     public void openDocumentationPage() {
 
-        openUrl("https://gorest.co.in/");
+        LogUtils.step("OPEN DOCUMENTATION PAGE");
+
+        openUrl(
+                ConfigReader.get("base.url")
+        );
+
+        waitFor(docsLink);
+
+        docsLink.click();
     }
 
-    public void verifyDocumentationPage() {
+    public String getDocsHeader() {
 
-        String currentUrl = getDriver().getCurrentUrl();
+        waitFor(docsHeader);
 
-        Assert.assertTrue(
-                currentUrl.contains("gorest")
-        );
+        return docsHeader.getText();
     }
 }
