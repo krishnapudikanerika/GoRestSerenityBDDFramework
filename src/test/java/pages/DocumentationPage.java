@@ -8,10 +8,10 @@ import utils.LogUtils;
 
 public class DocumentationPage extends PageObject {
 
-    @FindBy(xpath = "//*[@id='app']/div[2]/header/div/nav/a[2]")
+    @FindBy(linkText = "Docs")
     private WebElementFacade docsLink;
 
-    @FindBy(xpath = "//*[@id='main']/div[1]/h1")
+    @FindBy(xpath = "//h1[contains(text(),'Docs and integration guides')]")
     private WebElementFacade docsHeader;
 
     public void openDocumentationPage() {

@@ -8,13 +8,13 @@ import utils.LogUtils;
 
 public class ConsolePage extends PageObject {
 
-    @FindBy(xpath = "//*[@id='app']/div[2]/header/div/nav/a[1]")
+    @FindBy(css = "a[href='/rest-console']")
     private WebElementFacade consoleLink;
 
     @FindBy(id = "rsq-url")
     private WebElementFacade requestUrl;
 
-    @FindBy(xpath = "//*[@id='main']/div/div[2]/div[1]/button")
+    @FindBy(xpath = "//button[@type='button']")
     private WebElementFacade sendButton;
 
     @FindBy(xpath = "//*[@id='main']/div/div[2]/div[3]/section[2]/p/span[1]")
