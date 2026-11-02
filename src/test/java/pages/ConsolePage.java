@@ -11,7 +11,7 @@ public class ConsolePage extends PageObject {
     @FindBy(css = "a[href='/rest-console']")
     private WebElementFacade consoleLink;
 
-    @FindBy(id = "rsq-url")
+    @FindBy(xpath = "//span[contains(@class,'break-all')]")
     private WebElementFacade requestUrl;
 
     @FindBy(xpath = "//button[@type='button']")

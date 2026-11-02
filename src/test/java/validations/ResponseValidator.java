@@ -7,31 +7,43 @@ public class ResponseValidator {
 
     public static void validateStatusCode(
             Response response,
-            int expectedCode) {
+            int expectedStatusCode) {
 
         Assert.assertEquals(
                 "Status Code Validation Failed",
-                expectedCode,
+                expectedStatusCode,
                 response.getStatusCode()
         );
     }
 
-    public static void validateUserCreated(
+    public static void validateUserName(
             Response response,
-            String userName,
-            String email) {
+            String expectedName) {
+
+        Assert.assertEquals(
+                expectedName,
+                response.jsonPath()
+                        .getString("name")
+        );
+    }
+
+    public static void validateUserEmail(
+            Response response,
+            String expectedEmail) {
+
+        Assert.assertEquals(
+                expectedEmail,
+                response.jsonPath()
+                        .getString("email")
+        );
+    }
+
+    public static void validateUserId(
+            Response response) {
 
         Assert.assertNotNull(
-                response.jsonPath().get("id"));
-
-        Assert.assertEquals(
-                userName,
                 response.jsonPath()
-                        .getString("name"));
-
-        Assert.assertEquals(
-                email,
-                response.jsonPath()
-                        .getString("email"));
+                        .get("id")
+        );
     }
 }

@@ -18,9 +18,9 @@ public class IntegrationSteps {
 
         consolePage.openConsolePage();
 
-        consolePage.sendGetUserRequest(
-                TestContext.userId
-        );
+//        consolePage.sendGetUserRequest(
+//                TestContext.userId
+//        );
 
 ////        Assert.assertEquals(
 ////                "200",

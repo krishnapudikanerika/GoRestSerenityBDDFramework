@@ -37,7 +37,7 @@ public class UiSteps {
 
         UIValidator.validateTextPresent(
                 documentationPage.getDocsHeader(),
-                "Docs and integration guides"
+                "16 small tools"
         );
     }
 

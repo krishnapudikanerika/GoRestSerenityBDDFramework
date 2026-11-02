@@ -2,7 +2,11 @@ package utils;
 
 public class TestContext {
 
-    public static int userId;
+    public static Integer userId;
+
     public static String userName;
+
     public static String userEmail;
+
+    public static String updatedUserName;
 }
